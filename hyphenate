@@ -1,4 +1,7 @@
 #!/usr/bin/perl -s
+use strict;
+use warnings;
+
 # Use value of commandline parameter b as a separator
 my $separator = $b;
 
