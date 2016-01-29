@@ -17,10 +17,10 @@ swath \
   -u u,u \
   <&0 \
 | \
-./fix-wbr \
+./fix-wbr.pl \
   -separator=$WBRSEP \
   -exceptions=$FIXWBE \
 | \
-./hyphenate \
+./hyphenate.pl \
   -separator=$HYPSEP \
   -patterns=$FIXHYP
