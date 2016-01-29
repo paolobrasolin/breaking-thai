@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+DICDIR=./dictionaries
+
+FIXDIR=$DICDIR/fixed
+
+FIXWBR=$FIXDIR/wbr.tri
+FIXWBE=$FIXDIR/wbr.exc
+FIXHYP=$FIXDIR/hyp.tex
+
+WBRSEP="|"
+HYPSEP="-"
+
+swath \
+  -b $WBRSEP \
+  -d $FIXWBR \
+  -u u,u \
+  <&0 \
+| \
+./fix-wbr \
+  -separator=$WBRSEP \
+  -exceptions=$FIXWBE \
+| \
+./hyphenate \
+  -separator=$HYPSEP \
+  -patterns=$FIXHYP

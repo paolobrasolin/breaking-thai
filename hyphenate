@@ -2,11 +2,10 @@
 use strict;
 use warnings;
 
-# Use value of commandline parameter b as a separator
-my $separator = $b;
+our ($separator, $patterns) = ($::separator, $::patterns);
 
 use TeX::Hyphen;
-my $hyp = new TeX::Hyphen 'file' => 'hyphenation/hyph-th.tex', 'style' => 'utf8';
+my $hyp = new TeX::Hyphen 'file' => $patterns, 'style' => 'utf8';
 sub hyphenator {
   my($word) = @_;
   my $number = 0;
@@ -17,6 +16,7 @@ sub hyphenator {
   }
   $word;
 }
+
 binmode STDOUT, ':utf8';
 eof() ? exit : binmode ARGV, ':utf8';
 while (<>) {

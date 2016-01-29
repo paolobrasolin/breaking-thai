@@ -1,32 +1,34 @@
-
 DICDIR = ./dictionaries
+
 ORIDIR = $(DICDIR)/original
-PATDIR = $(DICDIR)/patches
-FIXDIR = $(DICDIR)/fixed
 ORIWBR = $(ORIDIR)/swathdic.tri
 ORIHYP = $(ORIDIR)/hyph-th.tex
+
+PATDIR = $(DICDIR)/patches
 PATWBR = $(PATDIR)/word-breaks
 PATHYP = $(PATDIR)/hyphenation
+
+FIXDIR = $(DICDIR)/fixed
 FIXWBR = $(FIXDIR)/wbr.tri
+FIXWBE = $(FIXDIR)/wbr.exc
 FIXHYP = $(FIXDIR)/hyp.tex
 
-
-#.PHONY: clean
+dictionaries: $(FIXHYP) $(FIXWBR) $(FIXWBE)
 
 $(FIXHYP): $(PATHYP)
 	grep --invert-match '^%' $(ORIHYP) > $(FIXHYP)
 	echo '\hyphenation{%' >> $(FIXHYP)
-	cat $(PATHYP) >> $(FIXHYP)
+	tr " " "-" < $(PATHYP) >> $(FIXHYP)
 	echo '}' >> $(FIXHYP)
+
+NEWWORDS := $(shell mktemp -u)
 
 $(FIXWBR): $(PATWBR)
 	cp $(ORIWBR) $(FIXWBR)
+	grep --invert-match " " $(PATWBR) > $(NEWWORDS) || true
+	trietool-0.2 $(basename $(FIXWBR)) \
+	  add-list --encoding UTF-8 $(NEWWORDS)
+	rm $(NEWWORDS)
 
-dictionaries: $(FIXHYP) $(FIXWBR)
-
-
-
-#swath -b "|" -u u,u <&0 | ./hyphenate -b="-"
-
-
-
+$(FIXWBE): $(PATWBR)
+	grep " " $(PATWBR) > $(FIXWBE) || true
