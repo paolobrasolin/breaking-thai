@@ -1,0 +1,2 @@
+#!/bin/bash
+swath -b "|" -u u,u <&0 | ./hyphenate -b="-"

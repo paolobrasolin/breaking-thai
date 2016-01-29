@@ -1,0 +1,25 @@
+#!/usr/bin/perl -s
+# Use value of commandline parameter b as a separator
+my $separator = $b;
+
+use TeX::Hyphen;
+my $hyp = new TeX::Hyphen 'file' => 'hyphenation/hyph-th.tex', 'style' => 'utf8';
+sub hyphenator {
+  my($word) = @_;
+  my $number = 0;
+  my $pos;
+  for $pos ($hyp->hyphenate($word)) {
+    substr($word, $pos + $number, 0) = $separator;
+    $number += length($separator);
+  }
+  $word;
+}
+binmode STDOUT, ':utf8';
+eof() ? exit : binmode ARGV, ':utf8';
+while (<>) {
+  my($line) = $_;
+  $line =~ s/(\p{Thai}+)/hyphenator($1)/ge;
+  print $line;
+} continue {
+  binmode ARGV, ':utf8' if eof && !eof();
+}
