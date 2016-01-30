@@ -8,8 +8,8 @@ FIXWBR=$FIXDIR/wbr.tri
 FIXWBE=$FIXDIR/wbr.exc
 FIXHYP=$FIXDIR/hyp.tex
 
-WBRSEP="|"
-HYPSEP="-"
+WBRSEP="{\\wbr}"
+HYPSEP="\\-"
 
 swath \
   -b $WBRSEP \

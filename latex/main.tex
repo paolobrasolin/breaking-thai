@@ -1,0 +1,16 @@
+\documentclass[12pt,twocolumn]{article}
+\usepackage[margin=.5in]{geometry}
+\usepackage[onehalfspacing]{setspace}
+\usepackage{hyphenat}
+\usepackage{polyglossia}
+\setmainlanguage{thai}
+\usepackage{fontspec}
+\setmainfont{FreeSerif}
+\def\wbr{\hskip 0em plus .3em\relax}
+\begin{document}
+\nohyphens{\input{../output}}
+\newpage
+\XeTeXlinebreaklocale "th"
+\XeTeXlinebreakskip = 0pt plus 1pt
+\input{../sample}
+\end{document}
